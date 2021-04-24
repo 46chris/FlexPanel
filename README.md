@@ -1,6 +1,9 @@
 # Flex-Panel Image Documentation
 
-![demo.gif](demo.gif)
+<p align="center"> 
+    <img src="demo.gif" width="500"> 
+</p>
+
 
 1. Currently, all the images on the page are in the default html layout. To manipulate the layout of our images more effectively, we will be using the CSS flexbox layout. 
     1. Inside of the ".panels" class selector, add the line display: flex. This will place all of our panels into a "flex container". The default behavior of a flex container, is to arrange all of the images in a side-by-side layout. Conveniently for us, this is our desired layout. 
