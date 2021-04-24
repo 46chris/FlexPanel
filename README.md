@@ -56,17 +56,19 @@
         const panels = document.querySelectorAll('.panel'); 
         ```
 
-        1. To accomplish "Opening" the image, add the following code below the snippet above. 
-
+        2. Now, let's write a simple JS function that will "open" each panel image.  
+            -  Name your function toggleOpen(). 
+            -  This function will be called be called on a panel and its goal is to change that panel's class name to 'open'. 
+            -  Try to write one line of code that accomplishes this. (Hints below) 
+                - "this" : a keyword that can reference the object you are calling the function on
+                - "classList": a property of an element that holds the DOMTokenList of the element's class attributes. (Simply put, it's a list of all the element's classes) 
+                - ".toggle(token)": A function which will add the passed in token to an element's class list. 
+        3. After creating your function, add this line of code: 
         ```jsx
-        function toggleOpen(){ 
-        	this.classList.toggle('open'); 
-        }
-
         panels.forEach(panel => panel.addEventListener('click', toggleOpen));
         ```
 
-        - *Explanation* : The function "toggleOpen()" when called, will change the class name of the panel on which this function was called on to include 'open'. This will change its behavior defined in CSS from class selector ".panel" to ".panel.open". The piece of code below, "panels.forEach...." basically makes it so that when a panel is clicked, "toggleOpen()" will be called.
+        - *Explanation* : The piece of code is a for each loop which is a loop variant that'll iterate through every single element of the container you called it on. In this case, it's iterating through the array of panel elements we defined earlier and for each panel element, is making it so that when it is clicked, "toggleOpen()" is called on it. 
         - Extra reading:
             - addEventListener: [https://www.w3schools.com/js/js_htmldom_eventlistener.asp](https://www.w3schools.com/js/js_htmldom_eventlistener.asp)
     3. To implement the movement of the text which we detailed in CSS, add the additional code below. (Note that the previous code snippet is included here too. You do not need to copy the previous code snippet twice) 
