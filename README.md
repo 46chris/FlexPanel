@@ -49,7 +49,7 @@
         - *Explanation* :
             - ".panel > *:first-child { transform: translateY(-100%)}" and ".panel > *:last-child { transform: translateY(100%);}" details the "beginning" state of the top and bottom text on each panel. The transforms essentially push the text off the webpage.
             - ".panel.open-active > *:first-child { transform: translateY(0);} " and ".panel.open-active > *:last-child { transform: translateY(0);}" details the "end" state of the top and bottom text on each panel. The transforms push the text back onto the webpage which should happen on click of the panel, which will be implemented in the javascript section coming up
-    2. To listen for user input, we will now implement JavaScript which must be done in the <script> </script> tags all the way at the bottom of your html file. Our animation itself will be split into two parts. "Opening" the image (this CSS was given to you) and then the moving the text (which we defined in CSS together above). 
+    2. To listen for user input, we will now implement JavaScript which must be done in the <script> </script> tags all the way at the bottom of your html file. Our animation itself will be split into two parts. "Opening" the image (this CSS was given to you) and then the moving the text (which we defined in CSS together above). We'll first tackle "opening" the image. 
         1. To obtain an array of panel elements, add the following code: 
 
         ```jsx
@@ -58,12 +58,13 @@
 
         2. Now, let's write a simple JS function that will "open" each panel image.  
             -  Name your function toggleOpen(). 
-            -  This function will be called be called on a panel and its goal is to change that panel's class name to 'open'. 
+            -  This function will be called be called on a panel and its goal is to add 'open' to that panel's class name.
             -  Try to write one line of code that accomplishes this. (Hints below) 
                 - "this" : a keyword that can reference the object you are calling the function on
                 - "classList": a property of an element that holds the DOMTokenList of the element's class attributes. (Simply put, it's a list of all the element's classes) 
-                - ".toggle(token)": A function which will add the passed in token to an element's class list. 
-        3. After creating your function, add this line of code: 
+                - "toggle(token)": A function which will add the passed in token to an element's class list.
+                - ".": an access modifier. You use this to access properties of whatever object you're calling it on. To access the classList of an element for example, you would write: "this.classList".  
+        3. After creating your function, add this line of code below your function:
         ```jsx
         panels.forEach(panel => panel.addEventListener('click', toggleOpen));
         ```
@@ -71,25 +72,23 @@
         - *Explanation* : The piece of code is a for each loop which is a loop variant that'll iterate through every single element of the container you called it on. In this case, it's iterating through the array of panel elements we defined earlier and for each panel element, is making it so that when it is clicked, "toggleOpen()" is called on it. 
         - Extra reading:
             - addEventListener: [https://www.w3schools.com/js/js_htmldom_eventlistener.asp](https://www.w3schools.com/js/js_htmldom_eventlistener.asp)
-    3. To implement the movement of the text which we detailed in CSS, add the additional code below. (Note that the previous code snippet is included here too. You do not need to copy the previous code snippet twice) 
-
+    3. The movement of your images should now be functional. We now are now going to implement the movement of your text. Recall in the CSS section, we defined the CSS selector for 'panel.open-active'. To animate our text, we now want to toggle between a panel's default class ('panel') to ('panel.open-active'). This will be done very similarly to how we animated the "opening" of our images.  
+        1. Write a function named "toggleActive(e)" (below toggleOpen(), but above the for each loop). It'll also be called on a panel and its goal is to move the text in the panel upon a "transitionend" event. The parameter 'e' will be a transitionend Event passed into the function. 
+            - *Explanation*: We want our text to appear only after a user clicks and opens a panel. Thus our function moving the text should also be called after a panel has been opened. The "transitionend" event is CSS's way of telling us that a panel has been opened. 
+            - "transitionend" event: This is just an event that is fired following a CSS transition
+            - More info on transitionend events: [https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/transitionend_event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/transitionend_event)
+        2. In toggleActive(e), use the "propertyName" attribute of the transitionend Event (e) to check if the CSS property associated with the transitionend event contains ('flex'). If so, in a very similar fashion to the previous function, add 'open-active' to the panel's class name. (Hints below) 
+            - *Explanation*: There are several "transitionend" events that are firing within our CSS script. The one associated with opening one of our panels contains 'flex' in the propertyName. 
+            - Unlike the previous section, there's a condition for changing the class name. This probably calls for an "if" statement. 
+            - In the if condition, you want to check if e.propertyName includes'flex'. The function .includes(string) is an easy way of accomplishing this.
+                 - Reading: [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes)
+            - The body of your if statement should change the class name of the panel this function is called on to include 'open-active'. Reference your previous function on how to do this. 
+       3. After creating your function, add this line of code below the preexisting for each loop. 
         ```jsx
-        function toggleOpen() { 
-        	this.classList.toggle('open'); 
-        }
-
-        function toggleActive(e){ 
-        	console.log(e.propertyName); 
-          if (e.propertyName.includes('flex')) { 
-        	  this.classList.toggle('open-active'); 
-        	}
-        }
-
-        panels.forEach(panel => panel.addEventListener('click', toggleOpen)); 
         panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
         ```
 
-        - *Explanation:* Much like the previous code snippet, "toggleActive", when called, will change the class name of the panel on which the function was called to include 'open-active'. Unlike the previous function, "toggleActive" will be called on a 'transitionend' vs a 'click'. 'transitionend' events happen at the end of transitions (no surprise there) and in our case, we are looking for the transition end associated with the resizing of our flex box which occurred during the "opening" animation above. This is all accomplished in the if statement within "toggleActive".
+        - *Explanation:* Much like the previous for each loop, this one is iterating through all the panels we defined earlier and is simply looking to call "toggleActive" when a "transitionend" is perceived by one our panels. 
 4. With this, your site should be all functional. Feel free to add different images and text. 
     - Further reading on how to add images:
         - [https://www.w3schools.com/html/html_images.asp](https://www.w3schools.com/html/html_images.asp)
