@@ -49,7 +49,7 @@
         - *Explanation* :
             - ".panel > *:first-child { transform: translateY(-100%)}" and ".panel > *:last-child { transform: translateY(100%);}" details the "beginning" state of the top and bottom text on each panel. The transforms essentially push the text off the webpage.
             - ".panel.open-active > *:first-child { transform: translateY(0);} " and ".panel.open-active > *:last-child { transform: translateY(0);}" details the "end" state of the top and bottom text on each panel. The transforms push the text back onto the webpage which should happen on click of the panel, which will be implemented in the javascript section coming up
-    2. To listen for user input, we will now implement JavaScript which must be done in the <script> </script> tags all the way at the bottom of your html file. Our animation itself will be split into two parts. "Opening" the image (this CSS was given to you) and then the moving the text (which we defined in CSS together above). We'll first tackle "opening" the image. 
+    2. To listen for user input, we will now implement JavaScript which must be done in the <script> </script> tags all the way at the bottom of the body tag (the script tags should already be there for you). Our animation itself will be split into two parts. "Opening" the image (this CSS was given to you) and then the moving the text (which we defined in CSS together above). We'll first tackle "opening" the image. 
         1. To obtain an array of panel elements, add the following code: 
 
         ```jsx
@@ -58,12 +58,14 @@
 
         2. Now, let's write a simple JS function that will "open" each panel image.  
             -  Name your function toggleOpen(). 
-            -  This function will be called be called on a panel and its goal is to add 'open' to that panel's class name.
+               - Syntax: function functionName() \{*Your Code*\} 
+            -  This function will be called on a panel and its goal is to add 'open' to that panel's class name.
             -  Try to write one line of code that accomplishes this. (Hints below) 
                 - "this" : a keyword that can reference the object you are calling the function on
                 - "classList": a property of an element that holds the DOMTokenList of the element's class attributes. (Simply put, it's a list of all the element's classes) 
-                - "toggle(token)": A function which will add the passed in token to an element's class list.
+                - "toggle(token)": A function which will add the passed in token (essentially a class name) to an element's class list. In this case, our token should be 'open'. Note: Make sure to put quotes around your token. So toggle('open'). 
                 - ".": an access modifier. You use this to access properties of whatever object you're calling it on. To access the classList of an element for example, you would write: "this.classList".  
+                - Put it all together: this.classList.toggle(token). 
         3. After creating your function, add this line of code below your function:
         ```jsx
         panels.forEach(panel => panel.addEventListener('click', toggleOpen));
